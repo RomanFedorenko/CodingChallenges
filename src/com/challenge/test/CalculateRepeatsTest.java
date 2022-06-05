@@ -36,4 +36,13 @@ public class CalculateRepeatsTest {
         Map<Integer, Integer> actual = CalculateRepeats.calculateRepeats(input);
         Assertions.assertEquals(expected, actual);
     }
+
+    @Test
+    public void nullListTest() {
+        List<Integer> input = null;
+        Map<Integer, Integer> expected = Collections.emptyMap();
+
+        Map<Integer, Integer> actual = CalculateRepeats.calculateRepeats(input);
+        Assertions.assertEquals(expected, actual);
+    }
 }
