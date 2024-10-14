@@ -1,9 +1,9 @@
 package com.challenge.observedpin;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -40,62 +40,42 @@ import java.util.stream.Collectors;
  * */
 
 public class ObservedPin {
-    public static HashMap<Character, String[]> adjacentMap = new HashMap<>() {
-        {
-            put('1', new String[]{"1", "2", "4"});
-            put('2', new String[]{"1", "2", "3", "5"});
-            put('3', new String[]{"2", "3", "6"});
-            put('4', new String[]{"1", "4", "5", "7"});
-            put('5', new String[]{"2", "4", "5", "6", "8"});
-            put('6', new String[]{"3", "5", "6", "9"});
-            put('7', new String[]{"4", "7", "8"});
-            put('8', new String[]{"5", "7", "8", "9", "0"});
-            put('9', new String[]{"6", "8", "9"});
-            put('0', new String[]{"0", "8"});
-        }
-    };
+    public static final Map<Character, List<Character>> possibleValue = Map.of(
+            '1', List.of('1', '2', '4'),
+            '2', List.of('1', '2', '3', '5'),
+            '3', List.of('2', '3', '6'),
+            '4', List.of('1', '4', '5', '7'),
+            '5', List.of('2', '4', '5', '6', '8'),
+            '6', List.of('3', '5', '6', '9'),
+            '7', List.of('4', '7', '8'),
+            '8', List.of('5', '7', '8', '9', '0'),
+            '9', List.of('6', '8', '9'),
+            '0', List.of('0', '8')
+    );
+
 
     public static List<String> getPINs(String observed) {
-        HashSet<String> possiblePINs = new HashSet<>();
-
-        char[] charArr = observed.toCharArray();
-        List<String> pool = observed.chars()
-                .mapToObj(c -> adjacentMap.get((char) c))
-                .flatMap(Arrays::stream)
+        List<List<Character>> traversalGraph = observed.chars()
+                .mapToObj(c -> possibleValue.get((char) c))
                 .collect(Collectors.toList());
 
-        StringBuilder sb = new StringBuilder();
+        List<String> combinationList = new ArrayList<>();
+        traverse(traversalGraph, 0, new StringBuilder(), combinationList);
+        return combinationList;
+    }
 
-        for (String number : pool) {
-            sb.append(number);
-            for (String number : pool)
+
+    public static void traverse(List<List<Character>> graph, int index, StringBuilder sb, List<String> combinationList) {
+        if (index == graph.size()) {
+            combinationList.add(sb.toString());
+            return;
         }
 
-        String[] possibleValue0 = adjacentMap.get(charArr[0]);
-        sb.append(possibleValue0[0]);
-        String[] possibleValue1 = adjacentMap.get(charArr[1]);
-        sb.append(possibleValue1[0]);
-        sb.toString();//add
-
-        sb.setLength(0);
-
-        sb.append(possibleValue1[0]);
-        sb.append(possibleValue1[1]);
-        sb.toString();//add
-
-        sb.setLength(0);
-
-        sb.append(possibleValue1[0]);
-        sb.append(possibleValue1[2]);
-
-
-
-        for (char c : charArr) {
-            String[] possibleValue = adjacentMap.get(c);
-
+        for (Character ch : graph.get(index)) {
+            sb.append(ch);
+            traverse(graph, index + 1, sb, combinationList);
+            sb.deleteCharAt(sb.length()-1);
         }
-        String[] possibleValue = adjacentMap.get(c);
-        sb.append(possibleValue[0]);
     }
 
 
