@@ -1,42 +1,34 @@
 package com.challenge.tosmallest;
 
-import java.util.List;
-import java.util.OptionalInt;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+/**
+ * see description at -> https://www.codewars.com/kata/573992c724fc289553000e95
+ * */
 
 public class ToSmallest {
     public static long[] smallest(long n) {
-        n = 199819884756l;
-        System.out.println("input n="+n);
-        List<Integer> digits = String.valueOf(n)
-                .chars()
-                .mapToObj(ch -> ch - '0')
-                .collect(Collectors.toList());
+        String nStr = Long.toString(n);
+        long smallestNumber = n;
+        int bestI = 0, bestJ = 0;
 
-        for (int i = 0; i < digits.size(); i++) {
-            Integer currentDigit = digits.get(i);
-            OptionalInt min = IntStream.range(i + 1, digits.size())
-                    .filter(index -> digits.get(index) < currentDigit)
-                    .map(digits::get)
-                    .min();
+        for (int i = 0; i < nStr.length(); i++) {
+            for (int j = 0; j < nStr.length(); j++) {
+                if (i == j) continue;
 
-            if (min.isPresent()) {
-                int indexToMove = min.getAsInt() == 0 ? digits.lastIndexOf(min.getAsInt()) :digits.indexOf(min.getAsInt());
-                Integer toMove = min.getAsInt();
-                digits.remove(indexToMove);
-                digits.add(i, toMove);
+                String newNumberStr = nStr.substring(0, i) + nStr.substring(i + 1);
+                newNumberStr = newNumberStr.substring(0, j) + nStr.charAt(i) + newNumberStr.substring(j);
 
-                long number = digits.stream()
-                        .mapToLong(digit -> digit)
-                        .reduce(0, (a, b) -> a * 10 + b);
-                if (Math.abs(indexToMove-i)==1){
-                    return new long[]{number, i, indexToMove};
+                long newNumber = Long.parseLong(newNumberStr);
+
+                if (newNumber < smallestNumber ||
+                        (newNumber == smallestNumber && i < bestI) ||
+                        (newNumber == smallestNumber && i == bestI && j < bestJ)) {
+                    smallestNumber = newNumber;
+                    bestI = i;
+                    bestJ = j;
                 }
-                return new long[]{number, indexToMove, i};
             }
         }
 
-        return new long[0];
+        return new long[]{smallestNumber, bestI, bestJ};
     }
 }
