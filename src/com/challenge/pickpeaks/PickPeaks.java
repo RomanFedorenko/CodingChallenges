@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * see description at -> https://www.codewars.com/kata/5279f6fe5ab7f447890006a7
+ * */
+
 public class PickPeaks {
     public static Map<String, List<Integer>> getPeaks(int[] arr) {
         Map<String, List<Integer>> result = Map.of(
