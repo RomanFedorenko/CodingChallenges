@@ -1,6 +1,6 @@
 package com.challenge.test;
 
-import aresame.AreSame;
+import com.challenge.aresame.AreSame;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

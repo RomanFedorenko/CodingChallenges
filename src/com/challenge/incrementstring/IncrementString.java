@@ -1,4 +1,4 @@
-package incrementstring;
+package com.challenge.incrementstring;
 
 import org.junit.platform.commons.util.StringUtils;
 

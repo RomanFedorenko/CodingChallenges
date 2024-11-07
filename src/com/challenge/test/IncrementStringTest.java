@@ -1,6 +1,6 @@
 package com.challenge.test;
 
-import incrementstring.IncrementString;
+import com.challenge.incrementstring.IncrementString;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

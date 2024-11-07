@@ -1,4 +1,4 @@
-package aresame;
+package com.challenge.aresame;
 
 import java.util.Arrays;
 
